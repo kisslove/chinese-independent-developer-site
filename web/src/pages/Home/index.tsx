@@ -2,7 +2,20 @@
 import { getList } from '@/services/project/api';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Button, Card, Empty, FloatButton, Form, Input, Radio, Space, Spin, theme } from 'antd';
+import {
+  Button,
+  Card,
+  Empty,
+  Flex,
+  FloatButton,
+  Form,
+  Input,
+  Radio,
+  Space,
+  Spin,
+  Tag,
+  theme,
+} from 'antd';
 import { unionBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import Details from './Details';
@@ -25,6 +38,87 @@ type SeacrhType = {
 
 const pageSize = 50;
 
+const tagsData = [
+  {
+    value: '工具',
+  },
+  {
+    value: 'AI',
+  },
+  {
+    value: '网站',
+  },
+  {
+    value: '软件',
+  },
+  {
+    value: '应用',
+  },
+  {
+    value: '平台',
+  },
+  {
+    value: '通讯',
+  },
+  {
+    value: '社区',
+  },
+  {
+    value: '社交',
+  },
+  {
+    value: '电商',
+  },
+  {
+    value: '生活',
+  },
+  {
+    value: 'O2O',
+  },
+  {
+    value: '文化',
+  },
+  {
+    value: '音乐',
+  },
+  {
+    value: '娱乐',
+  },
+  {
+    value: '视频',
+  },
+  {
+    value: '阅读',
+  },
+  {
+    value: '美图',
+  },
+  {
+    value: '安全',
+  },
+  {
+    value: '金融',
+  },
+  {
+    value: '医疗',
+  },
+  {
+    value: '旅游',
+  },
+  {
+    value: 'VR',
+  },
+  {
+    value: 'AR',
+  },
+  {
+    value: 'SaaS',
+  },
+  {
+    value: 'ERP',
+  },
+];
+
 const Home: React.FC = () => {
   const { token } = theme.useToken();
   const { initialState } = useModel('@@initialState');
@@ -34,10 +128,20 @@ const Home: React.FC = () => {
   const [currentItem, setCurrentItem] = useState<Project.Item>();
   const [showAdvanceSeach, setShowAdvanceSeach] = useState<boolean>(false);
   const [searchModel, setSearchModel] = useState<SeacrhType>();
+  const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
+
+  const [searchForm] = Form.useForm();
 
   useEffect(() => {
     search({});
   }, []);
+
+  const handleTagChange = (tag: string, checked: boolean) => {
+    const nextSelectedTags = checked ? [tag] : selectedTags.filter((t) => t !== tag);
+    searchForm.setFieldValue('keyword', nextSelectedTags?.[0]);
+    setSelectedTags(nextSelectedTags);
+    searchForm.submit();
+  };
 
   const search = (search: SeacrhType) => {
     setLoading(true);
@@ -243,17 +347,32 @@ const Home: React.FC = () => {
               }}
             >
               <h2>高级搜索</h2>
+
+              <Flex gap="4px 0" wrap>
+                {tagsData.map<React.ReactNode>((tag) => (
+                  <Tag.CheckableTag
+                    key={tag.value}
+                    // style={{ color: tag.color }}
+                    checked={selectedTags.includes(tag.value)}
+                    onChange={(checked) => handleTagChange(tag.value, checked)}
+                  >
+                    {tag.value}
+                  </Tag.CheckableTag>
+                ))}
+              </Flex>
+
               <Form
-                name="basic"
+                name="searchForm"
+                form={searchForm}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
-                style={{ maxWidth: 600 }}
+                style={{ maxWidth: 600, marginTop: 16 }}
                 initialValues={{ type: '', status: '' }}
                 onFinish={onFinish}
                 autoComplete="off"
               >
-                <Form.Item<FieldType> label="关键字" name="keyword">
-                  <Input placeholder="搜索产品/项目名称、描述" size="large" />
+                <Form.Item<FieldType> label="" name="keyword">
+                  <Input placeholder="产品/项目名称、描述" size="large" />
                 </Form.Item>
                 <Form.Item<FieldType> label="创建者" name="username">
                   <Input placeholder="上传者" size="large" />
