@@ -152,7 +152,10 @@ const Details: React.FC<{
             {item?.url}
           </a>
         </p>
-        <p>上架时间：{new Date(item?.addTime || Date.now())?.valueOf?.()}</p>
+        <p>
+          上架时间：
+          {new Date(parseInt(item?.addTime || Date.now().toString()))?.toLocaleDateString()}
+        </p>
         <div>浏览次数：{info?.data.views || 0}</div>
       </Modal>
     </>

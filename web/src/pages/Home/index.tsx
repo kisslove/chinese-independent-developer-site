@@ -144,6 +144,7 @@ const Home: React.FC = () => {
               style={{
                 marginBottom: 16,
                 display: 'flex',
+                flexWrap: 'wrap',
                 justifyContent: 'space-between',
                 alignItems: 'center ',
               }}
@@ -170,7 +171,15 @@ const Home: React.FC = () => {
                       onSearch={(value) => search({ keyword: value })}
                     />
                   )}
-                  <Button size="large" onClick={() => setShowAdvanceSeach(!showAdvanceSeach)}>
+                  <Button
+                    size="large"
+                    onClick={() => {
+                      if (showAdvanceSeach) {
+                        search({});
+                      }
+                      setShowAdvanceSeach(!showAdvanceSeach);
+                    }}
+                  >
                     {showAdvanceSeach ? '关闭高级搜索' : '高级搜索'}
                   </Button>
                 </Space>
@@ -281,7 +290,7 @@ const Home: React.FC = () => {
           if (flag) setShowModal(false);
         }}
       />
-      <FloatButton.BackTop tooltip="回到顶部" />
+      <FloatButton.BackTop style={{ border: 'solid 1px #13C2C2' }} tooltip="回到顶部" />
     </PageContainer>
   );
 };
