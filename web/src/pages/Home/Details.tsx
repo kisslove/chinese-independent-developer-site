@@ -152,8 +152,8 @@ const Details: React.FC<{
             {item?.url}
           </a>
         </p>
-        <p>上架时间：{item?.addTime}</p>
-        <div>浏览次数：{info?.data.views}</div>
+        <p>上架时间：{new Date(item?.addTime || Date.now())?.valueOf?.()}</p>
+        <div>浏览次数：{info?.data.views || 0}</div>
       </Modal>
     </>
   );
