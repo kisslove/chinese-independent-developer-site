@@ -156,8 +156,8 @@ const Home: React.FC = () => {
                   fontSize: 20,
                 }}
               >
-                👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么{' '}
-                <div style={{ fontSize: 13 }}>【已上架：{list?.total}个项目】</div>
+                👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么
+                <div style={{ fontSize: 13 }}>【已上架：{list?.total || 0}个项目】</div>
               </div>
               <div>
                 <Space>
@@ -206,7 +206,7 @@ const Home: React.FC = () => {
 
                 {!loading && list?.total === 0 && <Empty style={{ flex: 1 }} />}
               </div>
-              {list?.total && list?.total > list?.result?.length && (
+              {list?.total > list?.result?.length && (
                 <div style={{ textAlign: 'center', marginTop: 20 }}>
                   <Button
                     onClick={() => loadMore()}
