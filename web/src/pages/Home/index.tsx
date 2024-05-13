@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { getList } from '@/services/project/api';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import {
@@ -342,17 +343,26 @@ const Home: React.FC = () => {
                 border: 'sold 1px #ddd',
                 padding: 20,
                 width: '20%',
+                minWidth: 250,
                 right: 10,
-                // left: 0,
               }}
             >
-              <h2>高级搜索</h2>
+              <Space style={{ marginBottom: 8, fontSize: 16 }}>
+                <div>高级搜索</div>
+                <CloseCircleOutlined
+                  onClick={() => {
+                    if (showAdvanceSeach) {
+                      search({});
+                    }
+                    setShowAdvanceSeach(!showAdvanceSeach);
+                  }}
+                />
+              </Space>
 
               <Flex gap="4px 0" wrap>
                 {tagsData.map<React.ReactNode>((tag) => (
                   <Tag.CheckableTag
                     key={tag.value}
-                    // style={{ color: tag.color }}
                     checked={selectedTags.includes(tag.value)}
                     onChange={(checked) => handleTagChange(tag.value, checked)}
                   >
@@ -362,6 +372,7 @@ const Home: React.FC = () => {
               </Flex>
 
               <Form
+                size="small"
                 name="searchForm"
                 form={searchForm}
                 labelCol={{ span: 24 }}
@@ -402,12 +413,14 @@ const Home: React.FC = () => {
           </div>
         )}
       </div>
-      {showModal&&<Details
-        item={currentItem}
-        close={(flag: boolean) => {
-          if (flag) setShowModal(false);
-        }}
-      />}
+      {showModal && (
+        <Details
+          item={currentItem}
+          close={(flag: boolean) => {
+            if (flag) setShowModal(false);
+          }}
+        />
+      )}
       <FloatButton.BackTop style={{ border: 'solid 1px #13C2C2' }} tooltip="回到顶部" />
     </PageContainer>
   );
