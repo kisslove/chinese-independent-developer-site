@@ -402,13 +402,12 @@ const Home: React.FC = () => {
           </div>
         )}
       </div>
-      <Details
+      {showModal&&<Details
         item={currentItem}
-        show={showModal}
         close={(flag: boolean) => {
           if (flag) setShowModal(false);
         }}
-      />
+      />}
       <FloatButton.BackTop style={{ border: 'solid 1px #13C2C2' }} tooltip="回到顶部" />
     </PageContainer>
   );

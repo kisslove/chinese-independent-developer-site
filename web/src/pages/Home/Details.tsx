@@ -10,12 +10,10 @@ import styles from './Details.less';
 
 const Details: React.FC<{
   item: Project.Item | undefined;
-  show: boolean;
   close: (flag: boolean) => void;
-}> = ({ item, show, close }) => {
+}> = ({ item, close }) => {
   const [info, setInfo] = useState<Project.ItemOtherDetails>();
   const [socials, setSocials] = useState<User.ItemSocials>();
-  const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
@@ -27,10 +25,6 @@ const Details: React.FC<{
       getSocials(item.userId);
     }
   }, [item?.id]);
-
-  useEffect(() => {
-    setOpen(show);
-  }, [show]);
 
   const getOtherDetas = async (id: string) => {
     const data = await getItemDetails(id);
@@ -52,13 +46,11 @@ const Details: React.FC<{
 
   const handleOk = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
-    setOpen(false);
     close(true);
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
-    setOpen(false);
     close(true);
   };
 
@@ -107,7 +99,7 @@ const Details: React.FC<{
             产品/项目详情
           </div>
         }
-        open={open}
+        open={true}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}
