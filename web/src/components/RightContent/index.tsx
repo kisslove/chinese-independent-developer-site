@@ -1,6 +1,6 @@
 import { GithubFilled, SendOutlined } from '@ant-design/icons';
 import { SelectLang as UmiSelectLang } from '@umijs/max';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -42,7 +42,9 @@ export const Github = () => {
         window.open('https://github.com/kisslove/chinese-independent-developer-site');
       }}
     >
-      <Button type="primary" icon={<GithubFilled />}></Button>
+      <Tooltip placement="bottom" title="新项目求关注，喜欢就动动小手，给个star吧，❥(^_-)感谢❥(^_-)">
+        <Button type="primary" icon={<GithubFilled />}></Button>
+      </Tooltip>
     </div>
   );
 };

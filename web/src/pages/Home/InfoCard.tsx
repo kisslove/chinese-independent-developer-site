@@ -1,5 +1,6 @@
-import { SyncOutlined } from '@ant-design/icons';
-import { Popover, Space, Tag, theme } from 'antd';
+import { EyeOutlined, SyncOutlined } from '@ant-design/icons';
+import { Popover, Space, Statistic, StatisticProps, Tag, theme } from 'antd';
+import CountUp from 'react-countup';
 import styles from './index.less';
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -13,6 +14,10 @@ const InfoCard: React.FC<{
   const { useToken } = theme;
 
   const { token } = useToken();
+
+  const formatter: StatisticProps['formatter'] = (value) => (
+    <CountUp end={value as number} separator="," />
+  );
 
   return (
     <div
@@ -84,17 +89,25 @@ const InfoCard: React.FC<{
           : item?.description}
       </div>
 
-      <div style={{ position: 'absolute', bottom: 8 }}>
-        <Space>
-          {item.type === 'basic' ? <Tag>网站/App</Tag> : <Tag>开发者工具/论坛型网站</Tag>}
-          {item.status === 'online' && (
-            <Tag icon={<SyncOutlined spin />} color="green">
-              已上线
-            </Tag>
-          )}
-          {item.status === 'dev' && <Tag>开发中</Tag>}
-          {item.status === 'closed' && <Tag>缺乏维护</Tag>}
-        </Space>
+      <div style={{ position: 'absolute', bottom: 8, width: '90%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Space>
+            {item.type === 'basic' ? <Tag>网站/App</Tag> : <Tag>开发者工具/论坛型网站</Tag>}
+            {item.status === 'online' && (
+              <Tag icon={<SyncOutlined spin />} color="green">
+                已上线
+              </Tag>
+            )}
+            {item.status === 'dev' && <Tag>开发中</Tag>}
+            {item.status === 'closed' && <Tag>缺乏维护</Tag>}
+          </Space>
+          <Statistic
+            valueStyle={{ fontSize: 12, color: '#8a919f' }}
+            formatter={formatter}
+            value={item.itemViews}
+            prefix={<EyeOutlined />}
+          />
+        </div>
       </div>
     </div>
   );
