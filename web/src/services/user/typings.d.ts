@@ -3,7 +3,8 @@ declare namespace User {
     id?: string;
     userId: string;
     username: string;
-    token?:string;
+    nickName?: string;
+    token?: string;
     avatarPath?: string;
     createBy?: string;
     updateBy?: string;
@@ -27,9 +28,9 @@ declare namespace User {
     }
   }
 
-  interface UserLogin{
-    username:string;
-    password:string;
+  interface UserLogin {
+    username: string;
+    password: string;
   }
 
 }
