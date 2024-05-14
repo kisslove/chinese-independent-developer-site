@@ -3,11 +3,12 @@ declare namespace User {
     id?: string;
     userId: string;
     username: string;
+    token?:string;
     avatarPath?: string;
-    createBy: string;
-    updateBy: string;
-    createTime: Date;
-    updateTime: Date;
+    createBy?: string;
+    updateBy?: string;
+    createTime?: Date;
+    updateTime?: Date;
   }
   interface Res extends Common.Results {
     data: {
@@ -25,4 +26,10 @@ declare namespace User {
       }[]
     }
   }
+
+  interface UserLogin{
+    username:string;
+    password:string;
+  }
+
 }
