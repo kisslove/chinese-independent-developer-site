@@ -22,7 +22,7 @@ export async function getUserSocials(id: string, options?: { [key: string]: any 
 }
 
 
-export async function userLogin(data: User.UserLogin, options?: { [key: string]: any }): Promise<User.Item> {
+export async function userLogin(data: User.UserLogin, options?: { [key: string]: any }) {
   return request<User.Item>('/user/login', {
     method: 'POST',
     data,
@@ -30,11 +30,21 @@ export async function userLogin(data: User.UserLogin, options?: { [key: string]:
   });
 }
 
-export async function userRegister(data: User.Item, options?: { [key: string]: any }): Promise<User.Item> {
+export async function userRegister(data: User.UserRegister, options?: { [key: string]: any }) {
+  delete data["password2"];
   return request<User.Item>('/user/register', {
     method: 'POST',
     data,
     ...(options || {}),
   });
 }
+
+export async function getUserInfo(options?: { [key: string]: any }) {
+  return request<User.Item>('/user/getUserInfo', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+
 

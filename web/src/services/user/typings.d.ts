@@ -33,4 +33,10 @@ declare namespace User {
     password: string;
   }
 
+  interface UserRegister {
+    username: string;
+    password: string;
+    nickName?: string;
+  }
+
 }

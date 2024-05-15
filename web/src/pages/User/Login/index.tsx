@@ -2,8 +2,8 @@ import { Footer } from '@/components';
 import { userLogin } from '@/services/user/api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
-import { Helmet, history, useIntl, useModel } from '@umijs/max';
-import { Alert, message } from 'antd';
+import { Helmet, history, useModel } from '@umijs/max';
+import { Alert, ConfigProvider, message } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
@@ -39,10 +39,9 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<{ status?: string }>({});
+  const [userLoginState, setUserLoginState] = useState<{ msg?: string }>({});
   const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
-  const intl = useIntl();
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -57,121 +56,115 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async (values: User.UserLogin) => {
+    setUserLoginState({ msg: '' });
     try {
       // 登录
-      const msg = await userLogin({ ...values });
-      if (msg?.token) {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        localStorage.setItem('token', msg.token);
-        message.success(defaultLoginSuccessMessage);
+      const res = await userLogin({ ...values });
+      if (res?.data?.token) {
+        localStorage.setItem('token', res.data.token);
+        message.success('登录成功！');
         await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
         return;
       }
-      console.log(msg);
+      console.log(res);
       // 如果失败去设置用户错误信息
-      setUserLoginState({ status: 'error' });
+      setUserLoginState({ msg: '用户名或密码错误' });
     } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
-      console.log(error);
-      message.error(defaultLoginFailureMessage);
+      setUserLoginState({ msg: '登录失败,请重试！' });
     }
   };
-  const { status = {} } = userLoginState;
+  const { msg } = userLoginState;
 
   return (
-    <div className={styles.container}>
-      <Helmet>
-        <title>
-          {intl.formatMessage({
-            id: 'menu.login',
-            defaultMessage: '登录页',
-          })}
-          - {Settings.title}
-        </title>
-      </Helmet>
-      <div
-        style={{
-          flex: '1',
-          padding: '32px 0',
-          paddingTop: '8%',
-        }}
-      >
-        <LoginForm
-          contentStyle={{
-            minWidth: 280,
-            maxWidth: '75vw',
-          }}
-          // logo={<img alt="logo" src="/logo.svg" />}
-          title="中国独立开发者项目(网页版)"
-          subTitle="-- 分享大家都在做什么"
-          initialValues={{
-            autoLogin: true,
-          }}
-          onFinish={async (values) => {
-            await handleSubmit(values as User.UserLogin);
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: Settings.colorPrimary,
+          colorLink: Settings.colorPrimary,
+        },
+      }}
+    >
+      <div className={styles.container}>
+        <Helmet>
+          <title>登录页 - {Settings.title}</title>
+        </Helmet>
+        <div
+          style={{
+            flex: '1',
+            padding: '32px 0',
+            paddingTop: '8%',
           }}
         >
-          <>
-            <ProFormText
-              name="username"
-              fieldProps={{
-                size: 'large',
-                prefix: <UserOutlined />,
-              }}
-              placeholder="用户名"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名',
-                },
-              ]}
-            />
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: 'large',
-                prefix: <LockOutlined />,
-              }}
-              placeholder="密码"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入密码！',
-                },
-              ]}
-            />
-          </>
-
-          {status === 'error' && <LoginMessage content="账户或密码错误" />}
-          <div
-            style={{
-              marginBottom: 24,
+          <LoginForm
+            contentStyle={{
+              minWidth: 280,
+              maxWidth: '75vw',
+            }}
+            // logo={<img alt="logo" src="/logo.svg" />}
+            title="中国独立开发者项目(网页版)"
+            subTitle="-- 分享大家都在做什么"
+            initialValues={{
+              autoLogin: true,
+            }}
+            onFinish={async (values) => {
+              await handleSubmit(values as User.UserLogin);
             }}
           >
-            {/* <ProFormCheckbox noStyle name="autoLogin">
-              <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-            </ProFormCheckbox> */}
-            <a>注册新账号</a>
-            <a
+            <>
+              <ProFormText
+                name="username"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined />,
+                }}
+                placeholder="用户名"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户名',
+                  },
+                ]}
+              />
+              <ProFormText.Password
+                name="password"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined />,
+                }}
+                placeholder="密码"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入密码！',
+                  },
+                ]}
+              />
+            </>
+
+            {msg && <LoginMessage content={msg} />}
+            <div
               style={{
-                float: 'right',
+                marginBottom: 8,
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
             >
-              忘记密码？
-            </a>
-          </div>
-        </LoginForm>
+              <a>&nbsp;</a>
+              <a
+                onClick={() => {
+                  history.push('/user/register');
+                }}
+              >
+                注册新账号
+              </a>
+            </div>
+          </LoginForm>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ConfigProvider>
   );
 };
 

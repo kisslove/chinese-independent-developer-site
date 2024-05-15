@@ -1,12 +1,11 @@
 import { Footer } from '@/components';
 import { userRegister } from '@/services/user/api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { LoginForm, ProFormText } from '@ant-design/pro-components';
-import { Helmet, history, useIntl, useModel } from '@umijs/max';
-import { Alert, message } from 'antd';
+import { ProForm, ProFormText } from '@ant-design/pro-components';
+import { Helmet, history } from '@umijs/max';
+import { Alert, ConfigProvider, message } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
 
 const useStyles = createStyles(({ token }) => {
@@ -39,152 +38,153 @@ const LoginMessage: React.FC<{
 };
 
 const Register: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<{ status?: string }>({});
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const [userLoginState, setUserLoginState] = useState<{ msg?: string }>({});
   const { styles } = useStyles();
-  const intl = useIntl();
 
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      flushSync(() => {
-        setInitialState((s) => ({
-          ...s,
-          currentUser: userInfo,
-        }));
-      });
-    }
-  };
-
-  const handleSubmit = async (values: User.Item) => {
+  const handleSubmit = async (values: User.UserRegister) => {
+    setUserLoginState({ msg: '' });
     try {
+      if ((values as any).password2 !== values.password) {
+        setUserLoginState({ msg: '两次输入的密码不一致' });
+        return;
+      }
       // 注册
-      const msg = await userRegister({ ...values });
-      if (msg?.token) {
+      const res = await userRegister({ ...values });
+      if (res?.data.userId) {
         const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
         history.push('/user/login');
         return;
       }
-      console.log(msg);
+      console.log(res);
       // 如果失败去设置用户错误信息
-      setUserLoginState({ status: 'error' });
+      setUserLoginState({ msg: (res as any).msg || '注册失败' });
     } catch (error) {
-      const defaultLoginFailureMessage = '注册失败，请重试！';
+      setUserLoginState({ msg: '注册失败，请重试！' });
       console.log(error);
-      message.error(defaultLoginFailureMessage);
     }
   };
-  const { status = {} } = userLoginState;
+  const { msg } = userLoginState;
 
   return (
-    <div className={styles.container}>
-      <Helmet>
-        <title>注册页 - {Settings.title}</title>
-      </Helmet>
-      <div
-        style={{
-          flex: '1',
-          padding: '32px 0',
-          paddingTop: '8%',
-        }}
-      >
-        <LoginForm
-          contentStyle={{
-            minWidth: 280,
-            maxWidth: '75vw',
-          }}
-          // logo={<img alt="logo" src="/logo.svg" />}
-          title="中国独立开发者项目(网页版)"
-          subTitle="-- 分享大家都在做什么"
-          initialValues={{
-            autoLogin: true,
-          }}
-          onFinish={async (values) => {
-            await handleSubmit(values as User.Item);
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: Settings.colorPrimary,
+          colorLink: Settings.colorPrimary,
+        },
+      }}
+    >
+      <div className={styles.container}>
+        <Helmet>
+          <title>注册页 - {Settings.title}</title>
+        </Helmet>
+        <div
+          style={{
+            flex: '1',
+            padding: '32px 0',
+            paddingTop: '8%',
           }}
         >
-          <>
-            <ProFormText
-              name="username"
-              fieldProps={{
-                size: 'large',
-                prefix: <UserOutlined />,
-              }}
-              placeholder="用户名"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名',
-                },
-              ]}
-            />
-            <ProFormText
-              name="nickName"
-              fieldProps={{
-                size: 'large',
-                prefix: <UserOutlined />,
-              }}
-              placeholder="昵称"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名',
-                },
-              ]}
-            />
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: 'large',
-                prefix: <LockOutlined />,
-              }}
-              placeholder="密码"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入密码！',
-                },
-              ]}
-            />
-
-            <ProFormText.Password
-              name="password2"
-              fieldProps={{
-                size: 'large',
-                prefix: <LockOutlined />,
-              }}
-              placeholder="重复"
-              rules={[
-                {
-                  required: true,
-                  message: '请再次输入密码！',
-                },
-              ]}
-            />
-          </>
-
-          {status === 'error' && <LoginMessage content="注册失败" />}
-          <div
+          <ProForm
             style={{
-              marginBottom: 24,
+              minWidth: 280,
+              maxWidth: '75vw',
+              width: 400,
+              margin: 'auto',
             }}
+            onFinish={async (values) => {
+              await handleSubmit(values as User.UserRegister);
+            }}
+            submitter={{ searchConfig: { submitText: '注册', resetText: '重置' } }}
           >
-            <a
+            <>
+              <div>
+                <h2>注册新用户</h2>
+              </div>
+              <ProFormText
+                name="username"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined />,
+                }}
+                placeholder="用户名"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户名',
+                  },
+                  {
+                    min: 4,
+                    message: '至少4个字符',
+                  },
+                ]}
+              />
+              <ProFormText
+                name="nickName"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined />,
+                }}
+                placeholder="昵称"
+              />
+              <ProFormText.Password
+                name="password"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined />,
+                }}
+                placeholder="密码"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入密码！',
+                  },
+                  {
+                    min: 4,
+                    message: '至少4个字符',
+                  },
+                ]}
+              />
+
+              <ProFormText.Password
+                name="password2"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined />,
+                }}
+                placeholder="重复密码"
+                rules={[
+                  {
+                    required: true,
+                    message: '请再次输入密码！',
+                  },
+                ]}
+              />
+            </>
+
+            {msg && <LoginMessage content={msg} />}
+            <div
               style={{
-                float: 'right',
-              }}
-              onClick={() => {
-                history.push('/user/login');
+                marginBottom: 8,
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
             >
-              有账号，去登录
-            </a>
-          </div>
-        </LoginForm>
+              <a>&nbsp;</a>
+              <a
+                onClick={() => {
+                  history.push('/user/login');
+                }}
+              >
+                有账号，去登录
+              </a>
+            </div>
+          </ProForm>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ConfigProvider>
   );
 };
 

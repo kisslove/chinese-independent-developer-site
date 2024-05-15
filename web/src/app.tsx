@@ -1,11 +1,13 @@
 import { AvatarDropdown, AvatarName, Footer, Github, LoginOrRegister, Publish } from '@/components';
-import { LinkOutlined } from '@ant-design/icons';
+import { LinkOutlined, UserOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { Link, history } from '@umijs/max';
+import { Avatar } from 'antd';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
+import { getUserInfo } from './services/user/api';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/home';
 
@@ -21,19 +23,20 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     const settingJSON = await (await fetch('/setting.json')).json();
     window.apiBaseUrl = settingJSON.apiBaseUrl;
-    // try {
-    //   const msg = await queryCurrentUser({
-    //     skipErrorHandler: true,
-    //   });
-    //   return msg.data;
-    // } catch (error) {
-    //   history.push(loginPath);
-    // }
+    try {
+      const msg = await getUserInfo({
+        skipErrorHandler: true,
+      });
+      return msg.data;
+    } catch (error) {
+      // history.push(loginPath);
+    }
     return undefined;
   };
   // 如果不是登录页面，执行
   const { location } = history;
   const currentUser = await fetchUserInfo();
+  debugger;
   return {
     fetchUserInfo,
     currentUser,
@@ -50,10 +53,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       <LoginOrRegister key="loginOrReg" />,
     ],
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: initialState?.currentUser?.avatar || (
+        <Avatar shape="square" size={64} icon={<UserOutlined />} />
+      ),
       title: <AvatarName />,
       render: (_, avatarChildren) => {
-        return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
+        return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
