@@ -79,6 +79,20 @@ const Register: React.FC = () => {
         <Helmet>
           <title>注册页 - {Settings.title}</title>
         </Helmet>
+        <a
+          style={{
+            position: 'absolute',
+            right: 20,
+            top: 20,
+            color: Settings.colorPrimary,
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          首页
+        </a>
         <div
           style={{
             flex: '1',
