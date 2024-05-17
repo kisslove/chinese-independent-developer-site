@@ -15,6 +15,8 @@ declare namespace Project {
     createTime: Date;
     updateTime: Date;
     itemViews?: number;
+    itemLikes?: number;
+    itemCollects?: number;
   }
   interface Res extends Common.Results {
     data: {

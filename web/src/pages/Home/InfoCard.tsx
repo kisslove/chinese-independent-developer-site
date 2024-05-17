@@ -1,4 +1,4 @@
-import { EyeOutlined, LikeOutlined, SyncOutlined } from '@ant-design/icons';
+import { EyeOutlined, LikeOutlined, ShoppingCartOutlined, SyncOutlined } from '@ant-design/icons';
 import {
   Button,
   ConfigProvider,
@@ -44,13 +44,10 @@ const InfoCard: React.FC<{
           backgroundColor: token.colorBgContainer,
           // boxShadow: token.boxShadow,
           borderRadius: '8px',
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          borderBottom: 'none',
           fontSize: '14px',
           color: token.colorTextSecondary,
           lineHeight: '22px',
-          padding: '16px 20px 28px',
+          padding: '16px 0px 0px',
           minWidth: '300px',
           flex: 1,
           position: 'relative',
@@ -62,6 +59,7 @@ const InfoCard: React.FC<{
             display: 'flex',
             gap: '16px',
             alignItems: 'center',
+            padding: '0px 16px',
           }}
         >
           <div
@@ -97,12 +95,14 @@ const InfoCard: React.FC<{
         </div>
         <div
           style={{
+            padding: '0px 16px',
             fontSize: '14px',
             color: '#515767',
             textAlign: 'left',
             lineHeight: '22px',
             marginBottom: 8,
             marginTop: 16,
+            height: 48,
           }}
         >
           {item?.description?.length > 40
@@ -110,7 +110,7 @@ const InfoCard: React.FC<{
             : item?.description}
         </div>
 
-        <div>
+        <div style={{ padding: '0px 16px', marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Space>
               {item.type === 'basic' ? <Tag>网站/App</Tag> : <Tag>开发者工具/论坛型网站</Tag>}
@@ -134,15 +134,16 @@ const InfoCard: React.FC<{
         <div
           style={{
             padding: '8px 24px',
+            borderTop: 'dashed 1px #ddd',
           }}
         >
           <Space style={{ justifyContent: 'space-between', width: '100%' }}>
             <Button size="small" icon={<LikeOutlined />} type="link">
-              点赞
+              点赞({item.itemLikes || 0})
             </Button>
             <Divider type="vertical" />
-            <Button size="small" icon={<LikeOutlined />} type="link">
-              收藏
+            <Button size="small" icon={<ShoppingCartOutlined />} type="link">
+              收藏({item.itemCollects || 0})
             </Button>
           </Space>
         </div>
