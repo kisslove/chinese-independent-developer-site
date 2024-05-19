@@ -17,6 +17,8 @@ declare namespace Project {
     itemViews?: number;
     itemLikes?: number;
     itemCollects?: number;
+    isMyCollect?: boolean;
+    isMyLike?: boolean;
   }
   interface Res extends Common.Results {
     data: {
