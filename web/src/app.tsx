@@ -36,7 +36,6 @@ export async function getInitialState(): Promise<{
   // 如果不是登录页面，执行
   const { location } = history;
   const currentUser = await fetchUserInfo();
-  debugger;
   return {
     fetchUserInfo,
     currentUser,

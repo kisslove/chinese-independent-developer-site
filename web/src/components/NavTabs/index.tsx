@@ -1,9 +1,4 @@
-import {
-  HeartOutlined,
-  LikeOutlined,
-  ProfileOutlined,
-  ShoppingCartOutlined,
-} from '@ant-design/icons';
+import { HeartOutlined, LikeOutlined, ProfileOutlined } from '@ant-design/icons';
 import { history } from '@umijs/max';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -21,15 +16,10 @@ const items: MenuItem[] = [
     key: 'likes',
     icon: <LikeOutlined />,
   },
-  // {
-  //   label: '我的喜欢',
-  //   key: 'hearts',
-  //   icon: <HeartOutlined />,
-  // },
   {
     label: '我的收藏',
     key: 'collects',
-    icon: <ShoppingCartOutlined />,
+    icon: <HeartOutlined />,
   },
 ];
 

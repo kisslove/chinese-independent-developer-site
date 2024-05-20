@@ -55,11 +55,6 @@ export default [
         component: './Account/Likes',
       },
       {
-        path: '/account/hearts',
-        name: '我的喜欢',
-        component: './Account/Hearts',
-      },
-      {
         path: '/account/collects',
         name: '我的收藏',
         component: './Account/Collects',

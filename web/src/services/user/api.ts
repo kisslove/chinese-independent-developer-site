@@ -46,5 +46,17 @@ export async function getUserInfo(options?: { [key: string]: any }) {
   });
 }
 
+export async function getMyLikes(options?: { [key: string]: any }) {
+  return request<Project.Item>('/user/getUserLikes', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
 
+export async function getMyCollects(options?: { [key: string]: any }) {
+  return request<Project.Item>('/user/getUserCollects', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
 
