@@ -39,4 +39,12 @@ declare namespace User {
     nickName?: string;
   }
 
+  interface UpdateUserInfo {
+    phone?: string;
+    gender?: string;
+    nickName?: string;
+    email?: string;
+    description?: string;
+  }
+
 }

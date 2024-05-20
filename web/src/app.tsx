@@ -67,7 +67,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     headerTitleRender() {
       return (
         <div
-          style={{ color: '#13C2C2', marginLeft: '20px', fontFamily: 'cursive', fontWeight: 900 }}
+          style={{
+            cursor: 'pointer',
+            color: '#13C2C2',
+            marginLeft: '20px',
+            fontFamily: 'cursive',
+            fontWeight: 900,
+          }}
         >
           中国独立开发者项目列表(网页版)
         </div>

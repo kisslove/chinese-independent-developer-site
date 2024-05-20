@@ -60,3 +60,12 @@ export async function getMyCollects(options?: { [key: string]: any }) {
   });
 }
 
+
+
+export async function updateUser(data: User.UpdateUserInfo, options?: { [key: string]: any }) {
+  return request<User.Item>('/user/updateUser', {
+    method: 'POST',
+    data,
+    ...(options || {}),
+  });
+}
