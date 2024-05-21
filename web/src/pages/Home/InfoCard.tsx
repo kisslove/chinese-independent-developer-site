@@ -10,7 +10,6 @@ import {
   HeartOutlined,
   LikeFilled,
   LikeOutlined,
-  SyncOutlined,
 } from '@ant-design/icons';
 import {
   Button,
@@ -184,11 +183,7 @@ const InfoCard: React.FC<{
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Space>
               {itemNew?.type === 'basic' ? <Tag>网站/App</Tag> : <Tag>开发者工具/论坛型网站</Tag>}
-              {itemNew?.status === 'online' && (
-                <Tag icon={<SyncOutlined spin />} color="green">
-                  已上线
-                </Tag>
-              )}
+              {itemNew?.status === 'online' && <Tag color="green">已上线</Tag>}
               {itemNew?.status === 'dev' && <Tag>开发中</Tag>}
               {itemNew?.status === 'closed' && <Tag>缺乏维护</Tag>}
             </Space>

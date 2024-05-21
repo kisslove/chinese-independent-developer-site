@@ -110,8 +110,10 @@ export const errorConfig: RequestConfig = {
       const { data } = response as unknown as ResponseStructure;
       if (data?.code !== 200) {
         if (data.statusCode === 403) {
+          message.destroy();
           if (localStorage.getItem("token")) {
-            message.info('未授权访问，尝试退出后重新登录！');
+            message.info('登录信息过期，重新登录！');
+            localStorage.removeItem("token");
           } else {
             message.info('未授权访问，登录后访问！');
           }

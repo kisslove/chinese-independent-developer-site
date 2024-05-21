@@ -262,7 +262,9 @@ const Home: React.FC = () => {
                 }}
               >
                 👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么
-                <div style={{ fontSize: 13 }}>【已上架：{list?.total || 0}个项目】</div>
+                <div style={{ fontSize: 13 }}>
+                  【已上架：{list?.total || 0}个项目】,每日凌晨更新。
+                </div>
               </div>
               <div>
                 <Space>
@@ -298,16 +300,18 @@ const Home: React.FC = () => {
                   gap: 16,
                 }}
               >
-                {list?.result.map((r) => (
-                  <InfoCard
-                    item={r}
-                    onClick={() => {
-                      setCurrentItem(r);
-                      setShowModal(true);
-                    }}
-                    key={r.id}
-                  />
-                ))}
+                {list?.result.map((r) => {
+                  return (
+                    <InfoCard
+                      item={r}
+                      onClick={() => {
+                        setCurrentItem(r);
+                        setShowModal(true);
+                      }}
+                      key={r.id}
+                    />
+                  );
+                })}
 
                 {!loading && list?.total === 0 && <Empty style={{ flex: 1 }} />}
               </div>
