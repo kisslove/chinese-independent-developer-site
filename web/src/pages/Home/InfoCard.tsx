@@ -12,6 +12,7 @@ import {
   LikeOutlined,
 } from '@ant-design/icons';
 import {
+  Badge,
   Button,
   ConfigProvider,
   Divider,
@@ -121,6 +122,9 @@ const InfoCard: React.FC<{
         }}
         className={styles.card}
       >
+        {itemNew?.id === '3773d90d-24ad-4781-ba5c-7aeebab131f9' && (
+          <Badge.Ribbon color='#ddd' text="🔥🔥🔥" style={{ top: -16 }}></Badge.Ribbon>
+        )}
         <div
           style={{
             display: 'flex',
@@ -154,8 +158,8 @@ const InfoCard: React.FC<{
           >
             <div style={{ color: 'volcano' }}>
               <Popover content={<div>{itemNew?.name}</div>}>
-                {itemNew?.name?.length > 15
-                  ? itemNew?.name.substring(0, 15) + '...'
+                {itemNew?.name?.length > 13
+                  ? itemNew?.name.substring(0, 13) + '...'
                   : itemNew?.name}
               </Popover>
             </div>

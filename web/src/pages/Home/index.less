@@ -1,8 +1,10 @@
-
-.card{
-    border: 1px solid rgba(194,200,209,.6);
-    &:hover{
-        border: 1px solid #252933;
-        cursor: pointer;
-    }
+.card {
+  border: 1px solid rgba(194, 200, 209, 0.6);
+  &:hover {
+    border: 1px solid rgb(19, 194, 194);
+    box-shadow: 0 8px 24px rgba(163, 191, 170, 0.35);
+    cursor: pointer;
+    transition: box-shadow 0.3s cubic-bezier(0.215, 0.61, 0.355, 1),
+      transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
 }
