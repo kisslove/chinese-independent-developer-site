@@ -9,7 +9,6 @@ import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { getUserInfo } from './services/user/api';
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/home';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -34,7 +33,6 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
   // 如果不是登录页面，执行
-  const { location } = history;
   const currentUser = await fetchUserInfo();
   return {
     fetchUserInfo,
@@ -72,7 +70,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             color: '#13C2C2',
             marginLeft: '20px',
             fontFamily: 'cursive',
-            fontWeight: 900,
+            fontWeight: 800,
           }}
         >
           中国独立开发者项目列表(网页版)
@@ -81,11 +79,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
+      // const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
+      // if (!initialState?.currentUser && location.pathname !== loginPath) {
+      //   history.push(loginPath);
+      // }
     },
     bgLayoutImgList: [
       {

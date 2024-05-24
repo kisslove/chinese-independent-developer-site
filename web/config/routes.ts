@@ -29,9 +29,15 @@ export default [
   },
   {
     path: '/home',
-    name: '主页',
-    hideInMenu: true,
+    name: '首页',
+    // hideInMenu: true,
     component: './Home/index',
+  },
+  {
+    path: '/top',
+    name: '排行榜',
+    // hideInMenu: true,
+    component: './TopList',
   },
   {
     path: '/account',
