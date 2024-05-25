@@ -3,7 +3,7 @@ import { LinkOutlined, UserOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import { Link, history } from '@umijs/max';
+import { Link } from '@umijs/max';
 import { Avatar } from 'antd';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
@@ -71,6 +71,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             marginLeft: '20px',
             fontFamily: 'cursive',
             fontWeight: 800,
+            marginRight: 50,
           }}
         >
           中国独立开发者项目列表(网页版)

@@ -123,7 +123,7 @@ const InfoCard: React.FC<{
         className={styles.card}
       >
         {itemNew?.id === '3773d90d-24ad-4781-ba5c-7aeebab131f9' && (
-          <Badge.Ribbon color='#ddd' text="🔥🔥🔥" style={{ top: -16 }}></Badge.Ribbon>
+          <Badge.Ribbon color='gold' text="本项目" style={{ top: -16 }}></Badge.Ribbon>
         )}
         <div
           style={{

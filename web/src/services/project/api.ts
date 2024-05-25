@@ -69,3 +69,33 @@ export async function cancelItemCollects(id: string, options?: { [key: string]: 
     ...(options || {}),
   });
 }
+
+export async function topViews(params?: Common.Query, options?: { [key: string]: any }) {
+  return request<Project.Res>('/project/topViews', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function topLikes(params?: Common.Query, options?: { [key: string]: any }) {
+  return request<Project.Res>('/project/topLikes', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function topCollects(params?: Common.Query, options?: { [key: string]: any }) {
+  return request<Project.Res>('/project/topCollects', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}

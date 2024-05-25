@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { getList } from '@/services/project/api';
-import { CloseCircleOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import {
@@ -127,7 +126,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentItem, setCurrentItem] = useState<Project.Item>();
-  const [showAdvanceSeach, setShowAdvanceSeach] = useState<boolean>(false);
+  const [showAdvanceSeach, setShowAdvanceSeach] = useState<boolean>(true);
   const [searchModel, setSearchModel] = useState<SeacrhType>();
   const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
 
@@ -261,7 +260,7 @@ const Home: React.FC = () => {
                   fontSize: 20,
                 }}
               >
-                👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么
+                👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么?
                 <div style={{ fontSize: 13 }}>
                   【已上架：{list?.total || 0}个项目】,每日凌晨更新。
                 </div>
@@ -353,14 +352,14 @@ const Home: React.FC = () => {
             >
               <Space style={{ marginBottom: 8, fontSize: 16 }}>
                 <div>高级搜索</div>
-                <CloseCircleOutlined
+                {/* <CloseCircleOutlined
                   onClick={() => {
                     if (showAdvanceSeach) {
                       search({});
                     }
                     setShowAdvanceSeach(!showAdvanceSeach);
                   }}
-                />
+                /> */}
               </Space>
 
               <Flex gap="4px 0" wrap>
@@ -387,10 +386,10 @@ const Home: React.FC = () => {
                 autoComplete="off"
               >
                 <Form.Item<FieldType> label="" name="keyword">
-                  <Input placeholder="产品/项目名称、描述" size="large" />
+                  <Input placeholder="产品/项目名称、描述" size="large" allowClear />
                 </Form.Item>
                 <Form.Item<FieldType> label="创建者" name="username">
-                  <Input placeholder="上传者" size="large" />
+                  <Input placeholder="上传者" size="large" allowClear />
                 </Form.Item>
                 <Form.Item<FieldType> label="类型(来源)" name="type">
                   <Radio.Group>

@@ -1,0 +1,26 @@
+.listContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px;
+  border-bottom: dashed 1px #ddd;
+  cursor: pointer;
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.cardContainer {
+  position: relative;
+  width: 100%;
+  margin-top: 16;
+}
+
+.contentContainer {
+  height: calc(100vh - 400px);
+  overflow-y: hidden;
+  &:hover {
+    overflow-y: auto;
+  }
+}
+
