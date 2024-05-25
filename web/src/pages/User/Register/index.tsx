@@ -82,7 +82,7 @@ const Register: React.FC = () => {
         <a
           style={{
             position: 'absolute',
-            right: 20,
+            left: 20,
             top: 20,
             color: Settings.colorPrimary,
             cursor: 'pointer',
@@ -91,7 +91,7 @@ const Register: React.FC = () => {
             history.push('/');
           }}
         >
-          首页
+          中国独立开发者项目(网页版)
         </a>
         <div
           style={{
@@ -110,10 +110,13 @@ const Register: React.FC = () => {
             onFinish={async (values) => {
               await handleSubmit(values as User.UserRegister);
             }}
-            submitter={{ searchConfig: { submitText: '注册', resetText: '重置' } }}
+            submitter={{
+              searchConfig: { submitText: '注册', resetText: '重置' },
+              submitButtonProps: {},
+            }}
           >
             <>
-              <div>
+              <div style={{ textAlign: 'center', marginBottom: 40 }}>
                 <h2>注册新用户</h2>
               </div>
               <ProFormText

@@ -93,7 +93,7 @@ const Login: React.FC = () => {
         <a
           style={{
             position: 'absolute',
-            right: 20,
+            left: 20,
             top: 20,
             color: Settings.colorPrimary,
             cursor: 'pointer',
@@ -102,7 +102,7 @@ const Login: React.FC = () => {
             history.push('/');
           }}
         >
-          首页
+          中国独立开发者项目(网页版)
         </a>
         <div
           style={{
@@ -117,7 +117,7 @@ const Login: React.FC = () => {
               maxWidth: '75vw',
             }}
             // logo={<img alt="logo" src="/logo.svg" />}
-            title="中国独立开发者项目(网页版)"
+            title="享受别人不能享受的快乐"
             subTitle="-- 分享大家都在做什么"
             initialValues={{
               autoLogin: true,

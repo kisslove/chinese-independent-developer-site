@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import NavTabs from '@/components/NavTabs';
 import Details from '@/pages/Home/Details';
 import InfoCard from '@/pages/Home/InfoCard';
@@ -55,6 +56,7 @@ const Collects: React.FC = () => {
               >
                 {list?.result.map((r) => (
                   <InfoCard
+                    showNum={false}
                     showLikeBtn={false}
                     showCollectBtn
                     item={r}

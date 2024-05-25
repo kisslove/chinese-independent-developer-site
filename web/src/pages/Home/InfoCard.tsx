@@ -37,8 +37,9 @@ const InfoCard: React.FC<{
   item: Project.Item;
   showLikeBtn?: boolean;
   showCollectBtn?: boolean;
+  showNum?: boolean;
   onClick: () => void;
-}> = ({ item, onClick, showLikeBtn = true, showCollectBtn = true }) => {
+}> = ({ item, onClick, showLikeBtn = true, showCollectBtn = true, showNum = true }) => {
   const { useToken } = theme;
   const [itemNew, setItemNew] = useState<Project.Item>();
 
@@ -123,7 +124,7 @@ const InfoCard: React.FC<{
         className={styles.card}
       >
         {itemNew?.id === '3773d90d-24ad-4781-ba5c-7aeebab131f9' && (
-          <Badge.Ribbon color='gold' text="本项目" style={{ top: -16 }}></Badge.Ribbon>
+          <Badge.Ribbon color="gold" text="本项目" style={{ top: -16 }}></Badge.Ribbon>
         )}
         <div
           style={{
@@ -158,8 +159,8 @@ const InfoCard: React.FC<{
           >
             <div style={{ color: 'volcano' }}>
               <Popover content={<div>{itemNew?.name}</div>}>
-                {itemNew?.name?.length > 13
-                  ? itemNew?.name.substring(0, 13) + '...'
+                {itemNew?.name?.length > 12
+                  ? itemNew?.name.substring(0, 12) + '...'
                   : itemNew?.name}
               </Popover>
             </div>
@@ -191,12 +192,14 @@ const InfoCard: React.FC<{
               {itemNew?.status === 'dev' && <Tag>开发中</Tag>}
               {itemNew?.status === 'closed' && <Tag>缺乏维护</Tag>}
             </Space>
-            <Statistic
-              valueStyle={{ fontSize: 12, color: '#8a919f' }}
-              formatter={formatter}
-              value={itemNew?.itemViews}
-              prefix={<EyeOutlined />}
-            />
+            {showNum && (
+              <Statistic
+                valueStyle={{ fontSize: 12, color: '#8a919f' }}
+                formatter={formatter}
+                value={itemNew?.itemViews}
+                prefix={<EyeOutlined />}
+              />
+            )}
           </div>
         </div>
 
@@ -214,7 +217,7 @@ const InfoCard: React.FC<{
                 icon={itemNew?.isMyLike ? <LikeFilled /> : <LikeOutlined />}
                 type="link"
               >
-                点赞({itemNew?.itemLikes || 0})
+                点赞{showNum && <span>({itemNew?.itemLikes || 0})</span>}
               </Button>
             )}
 
@@ -226,7 +229,7 @@ const InfoCard: React.FC<{
                 icon={itemNew?.isMyCollect ? <HeartFilled /> : <HeartOutlined />}
                 type="link"
               >
-                收藏({itemNew?.itemCollects || 0})
+                收藏{showNum && <span>({itemNew?.itemCollects || 0})</span>}
               </Button>
             )}
           </Space>

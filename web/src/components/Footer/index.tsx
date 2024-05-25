@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
         {
           key: 'chinese-independent-developer-web',
           title: '中国独立开发者项目(网页)',
-          href: 'https://github.com/kisslove/chinese-independent-developer-web',
+          href: 'https://github.com/kisslove/chinese-independent-developer-site',
           blankTarget: true,
         },
         {

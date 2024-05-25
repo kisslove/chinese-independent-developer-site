@@ -17,7 +17,7 @@ import {
   theme,
 } from 'antd';
 import { unionBy } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Details from './Details';
 import InfoCard from './InfoCard';
 
@@ -126,11 +126,15 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentItem, setCurrentItem] = useState<Project.Item>();
-  const [showAdvanceSeach, setShowAdvanceSeach] = useState<boolean>(true);
+  const [showAdvanceSeach, setShowAdvanceSeach] = useState<boolean>(
+    document.body.clientWidth < 1366 ? false : true,
+  );
   const [searchModel, setSearchModel] = useState<SeacrhType>();
   const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
 
   const [searchForm] = Form.useForm();
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     search({});
@@ -228,6 +232,19 @@ const Home: React.FC = () => {
     search(value);
   };
 
+  const onValuesChange = (changedValues, allValues) => {
+    if (!allValues.keyword) setSelectedTags([]);
+    // 如果存在定时器，清除它
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // 创建一个新的定时器，500毫秒后提交表单
+    timeoutRef.current = setTimeout(() => {
+      onFinish(allValues);
+    }, 500);
+  };
+
   return (
     <PageContainer title={false}>
       <div style={{ display: 'flex', width: '100%' }}>
@@ -282,6 +299,8 @@ const Home: React.FC = () => {
                     onClick={() => {
                       if (showAdvanceSeach) {
                         search({});
+                        setSelectedTags([]);
+                        searchForm?.resetFields();
                       }
                       setShowAdvanceSeach(!showAdvanceSeach);
                     }}
@@ -343,7 +362,7 @@ const Home: React.FC = () => {
               style={{
                 position: 'fixed',
                 background: '#fff',
-                border: 'sold 1px #ddd',
+                border: 'solid 1px #fff',
                 padding: 20,
                 width: '20%',
                 minWidth: 250,
@@ -366,6 +385,7 @@ const Home: React.FC = () => {
                 {tagsData.map<React.ReactNode>((tag) => (
                   <Tag.CheckableTag
                     key={tag.value}
+                    style={{ border: 'solid 1px #13C2C2' }}
                     checked={selectedTags.includes(tag.value)}
                     onChange={(checked) => handleTagChange(tag.value, checked)}
                   >
@@ -383,6 +403,7 @@ const Home: React.FC = () => {
                 style={{ maxWidth: 600, marginTop: 16 }}
                 initialValues={{ type: '', status: '' }}
                 onFinish={onFinish}
+                onValuesChange={onValuesChange}
                 autoComplete="off"
               >
                 <Form.Item<FieldType> label="" name="keyword">
