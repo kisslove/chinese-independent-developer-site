@@ -6,7 +6,16 @@
  * 布局组件
  */
 import Footer from './Footer';
-import { Github, Publish, SelectLang, LoginOrRegister } from './RightContent';
+import { Github, LoginOrRegister, Publish, SelectLang, TodayLucky } from './RightContent';
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown';
 
-export { AvatarDropdown, AvatarName, Footer, Github, Publish, SelectLang, LoginOrRegister };
+export {
+  AvatarDropdown,
+  AvatarName,
+  Footer,
+  Github,
+  LoginOrRegister,
+  Publish,
+  SelectLang,
+  TodayLucky,
+};

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react/jsx-key */
-import { Avatar, Button, Card, Col, Row, Space } from 'antd';
+import { Avatar, Button, Card, Col, Empty, Row, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { topCollects, topLikes, topViews } from '@/services/project/api';
@@ -235,6 +235,7 @@ const TopList: React.FC = () => {
                   </a>
                 );
               })}
+              {viewlist.length === 0 && <Empty description="快去看看项目吧" />}
             </div>
           </Card>
         </Col>
@@ -279,6 +280,7 @@ const TopList: React.FC = () => {
                   </a>
                 );
               })}
+              {likelist.length === 0 && <Empty description="快去给你喜欢的项目点个赞吧" />}
             </div>
           </Card>
         </Col>
@@ -323,6 +325,9 @@ const TopList: React.FC = () => {
                   </a>
                 );
               })}
+              {collectlist.length === 0 && (
+                <Empty description="喜欢的项目还可以收藏哦，免得下次找不到了" />
+              )}
             </div>
           </Card>
         </Col>

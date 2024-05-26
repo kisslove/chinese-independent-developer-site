@@ -1,6 +1,5 @@
 ﻿import type { RequestOptions } from '@@/plugin-request/request';
 import type { RequestConfig } from '@umijs/max';
-import { history } from '@umijs/max';
 import { message, notification } from 'antd';
 
 // 错误处理方案： 错误类型
@@ -93,7 +92,7 @@ export const errorConfig: RequestConfig = {
       const baseUrl = window.apiBaseUrl;
       // 拦截请求配置，进行个性化处理。
       const url = baseUrl + config?.url;
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
       if (token) {
         config.headers['authorization'] = token;
@@ -111,11 +110,11 @@ export const errorConfig: RequestConfig = {
       if (data?.code !== 200) {
         if (data.statusCode === 403) {
           message.destroy();
-          if (localStorage.getItem("token")) {
+          if (localStorage.getItem('token')) {
             message.info('登录信息过期，重新登录！');
-            localStorage.removeItem("token");
+            localStorage.removeItem('token');
           } else {
-            message.info('未授权访问，登录后访问！');
+            message.warning('登录后,再来助力！');
           }
           return response;
         }

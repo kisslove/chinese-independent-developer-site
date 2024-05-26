@@ -1,4 +1,12 @@
-import { AvatarDropdown, AvatarName, Footer, Github, LoginOrRegister, Publish } from '@/components';
+import {
+  AvatarDropdown,
+  AvatarName,
+  Footer,
+  Github,
+  LoginOrRegister,
+  Publish,
+  TodayLucky,
+} from '@/components';
 import { LinkOutlined, UserOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
@@ -45,6 +53,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     actionsRender: () => [
+      // <TodayLucky key="todaylucky" />,
       <Github key="github" />,
       <Publish key="publish" />,
       <LoginOrRegister key="loginOrReg" />,
@@ -74,7 +83,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             marginRight: 50,
           }}
         >
-          中国独立开发者项目列表(网页版)
+          <img src="favicon.png"></img> 中国独立开发者项目列表(网页版)
         </div>
       );
     },
