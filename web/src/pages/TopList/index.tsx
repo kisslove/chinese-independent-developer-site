@@ -106,17 +106,21 @@ const TopList: React.FC = () => {
         // 获取本周的第一天（周一）
         const firstDayOfWeek = new Date(today);
         firstDayOfWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+        firstDayOfWeek.setHours(0, 0, 0, 0);
         // 获取本周的最后一天（周日）
         const lastDayOfWeek = new Date(firstDayOfWeek);
         lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+        lastDayOfWeek.setHours(23, 59, 59, 0);
         time.startTime = firstDayOfWeek;
         time.endTime = lastDayOfWeek;
         break;
       case 'month':
         // 获取本月的第一天
         const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        firstDayOfMonth.setHours(0, 0, 0, 0);
         // 获取本月的最后一天
         const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        lastDayOfMonth.setHours(23, 59, 59, 0);
         time.startTime = firstDayOfMonth;
         time.endTime = lastDayOfMonth;
         break;
@@ -126,9 +130,10 @@ const TopList: React.FC = () => {
 
         // 获取本季度的开始日期
         const firstDayOfQuarter = new Date(today.getFullYear(), quarter * 3, 1);
-
+        firstDayOfQuarter.setHours(0, 0, 0, 0);
         // 获取本季度的最后一天
         const lastDayOfQuarter = new Date(today.getFullYear(), (quarter + 1) * 3, 0);
+        lastDayOfQuarter.setHours(23, 59, 59, 0);
         time.startTime = firstDayOfQuarter;
         time.endTime = lastDayOfQuarter;
         break;
@@ -136,9 +141,10 @@ const TopList: React.FC = () => {
       case 'year':
         // 获取本年的第一天
         const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-
+        firstDayOfYear.setHours(0, 0, 0, 0);
         // 获取本年的最后一天
         const lastDayOfYear = new Date(today.getFullYear() + 1, 0, 0);
+        lastDayOfYear.setHours(23, 59, 59, 0);
         time.startTime = firstDayOfYear;
         time.endTime = lastDayOfYear;
         break;
