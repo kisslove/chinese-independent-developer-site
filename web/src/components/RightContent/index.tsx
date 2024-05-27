@@ -1,5 +1,5 @@
 import { GithubFilled, SendOutlined } from '@ant-design/icons';
-import { LuckyGrid } from '@lucky-canvas/react';
+import { LuckyWheel } from '@lucky-canvas/react';
 import { SelectLang as UmiSelectLang, history } from '@umijs/max';
 import { Button, Modal, Tooltip } from 'antd';
 import { useRef, useState } from 'react';
@@ -91,12 +91,12 @@ export const TodayLucky = () => {
   const myLucky = useRef();
   const [blocks] = useState([{ padding: '10px', background: '#869cfa' }]);
   const [prizes] = useState([
-    { background: '#e9e8fe', fonts: [{ text: '0' }] },
-    { background: '#b8c5f2', fonts: [{ text: '1' }] },
-    { background: '#e9e8fe', fonts: [{ text: '2' }] },
-    { background: '#b8c5f2', fonts: [{ text: '3' }] },
-    { background: '#e9e8fe', fonts: [{ text: '4' }] },
-    { background: '#b8c5f2', fonts: [{ text: '5' }] },
+    { background: '#e9e8fe', fonts: [{ text: '坚持不懈' }] },
+    { background: '#b8c5f2', fonts: [{ text: '喜从天降' }] },
+    { background: '#e9e8fe', fonts: [{ text: '水到渠成' }] },
+    { background: '#b8c5f2', fonts: [{ text: '心旷神怡' }] },
+    { background: '#e9e8fe', fonts: [{ text: '坚忍不拔' }] },
+    { background: '#b8c5f2', fonts: [{ text: '悠然自得' }] },
   ]);
   const [buttons] = useState([
     { radius: '40%', background: '#617df2' },
@@ -111,9 +111,11 @@ export const TodayLucky = () => {
 
   const showModal = () => {
     Modal.info({
-      title: '今日运气',
+      closable: true,
+      title: '今日成语，很灵的。',
       content: (
-        <LuckyGrid
+        <LuckyWheel
+          ref={myLucky}
           width="300px"
           height="300px"
           blocks={blocks}
@@ -129,9 +131,9 @@ export const TodayLucky = () => {
           }}
           onEnd={(prize) => {
             // 抽奖结束会触发end回调
-            alert('恭喜你抽到 ' + prize.fonts[0].text + ' 号奖品');
+            // alert('恭喜你抽到 ' + prize.fonts[0].text + ' 号奖品');
           }}
-        ></LuckyGrid>
+        ></LuckyWheel>
       ),
     });
   };

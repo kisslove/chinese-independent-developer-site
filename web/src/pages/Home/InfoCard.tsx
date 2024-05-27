@@ -3,8 +3,10 @@ import {
   cancelItemLikes,
   countItemCollects,
   countItemLikes,
+  countItemViews,
 } from '@/services/project/api';
 import {
+  ExportOutlined,
   EyeOutlined,
   HeartFilled,
   HeartOutlined,
@@ -232,6 +234,21 @@ const InfoCard: React.FC<{
                 收藏{showNum && <span>({itemNew?.itemCollects || 0})</span>}
               </Button>
             )}
+
+            <Divider type="vertical" />
+            <a
+              target="_blank"
+              onClick={(e) => {
+                e.stopPropagation();
+                countItemViews(itemNew?.id).catch();
+              }}
+              href={itemNew?.url}
+            >
+              <Space>
+                <ExportOutlined />
+                官网
+              </Space>
+            </a>
           </Space>
         </div>
       </div>

@@ -53,7 +53,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     actionsRender: () => [
-      // <TodayLucky key="todaylucky" />,
+      <TodayLucky key="todaylucky" />,
       <Github key="github" />,
       <Publish key="publish" />,
       <LoginOrRegister key="loginOrReg" />,
