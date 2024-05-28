@@ -1,8 +1,9 @@
+import { countItemViews, getList } from '@/services/project/api';
 import { GithubFilled, SendOutlined } from '@ant-design/icons';
 import { LuckyWheel } from '@lucky-canvas/react';
 import { SelectLang as UmiSelectLang, history } from '@umijs/max';
-import { Button, Modal, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
+import { Button, Modal, Tooltip, notification } from 'antd';
+import { useEffect, useRef, useState } from 'react';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -88,16 +89,41 @@ export const LoginOrRegister = () => {
 };
 
 export const TodayLucky = () => {
-  const myLucky = useRef();
-  const [blocks] = useState([{ padding: '10px', background: '#869cfa' }]);
-  const [prizes] = useState([
-    { background: '#e9e8fe', fonts: [{ text: '坚持不懈' }] },
-    { background: '#b8c5f2', fonts: [{ text: '喜从天降' }] },
-    { background: '#e9e8fe', fonts: [{ text: '水到渠成' }] },
-    { background: '#b8c5f2', fonts: [{ text: '心旷神怡' }] },
-    { background: '#e9e8fe', fonts: [{ text: '坚忍不拔' }] },
-    { background: '#b8c5f2', fonts: [{ text: '悠然自得' }] },
-  ]);
+  const myLucky = useRef<any>();
+  const [blocks] = useState([{ padding: '10px', background: '#13C2C2' }]);
+  const [prizes, setPrizes] = useState([]);
+  useEffect(() => {
+    getList({
+      pageNum: 1,
+      pageSize: 8,
+      sortOrder: 'desc',
+      sortField: 'addTime',
+    }).then((r) => {
+      if (r.data) {
+        setPrizes(
+          r.data.result.map((r, index) => {
+            return {
+              background: index % 2 === 0 ? '#13C2C2' : '#b8c5f2',
+              fonts: [
+                {
+                  text: r?.name?.substring(0, 4),
+                  fontColor: '#eee',
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  top: 18,
+                  lineHeight: '18px',
+                },
+              ],
+              url: r.url,
+              desc: r.description,
+              name: r.name,
+              id: r.id,
+            };
+          }),
+        );
+      }
+    });
+  }, []);
   const [buttons] = useState([
     { radius: '40%', background: '#617df2' },
     { radius: '35%', background: '#afc8ff' },
@@ -105,14 +131,17 @@ export const TodayLucky = () => {
       radius: '30%',
       background: '#869cfa',
       pointer: true,
-      fonts: [{ text: '开始', top: '-10px' }],
+      fonts: [{ text: '开始', top: '-10px', fontColor: '#fff' }],
     },
   ]);
 
   const showModal = () => {
     Modal.info({
       closable: true,
-      title: '今日成语，很灵的。',
+      title: '今日缘分',
+      centered: true,
+      maskClosable: true,
+      footer: false,
       content: (
         <LuckyWheel
           ref={myLucky}
@@ -122,16 +151,37 @@ export const TodayLucky = () => {
           prizes={prizes}
           buttons={buttons}
           onStart={() => {
-            // 点击抽奖按钮会触发star回调
-            myLucky.current?.play?.();
-            setTimeout(() => {
-              const index = (Math.random() * 6) >> 0;
-              myLucky.current?.stop?.(index);
-            }, 2500);
+            if (myLucky.current) {
+              // 点击抽奖按钮会触发star回调
+              myLucky.current?.play?.();
+              setTimeout(() => {
+                const index = (Math.random() * 8) >> 0;
+                myLucky.current?.stop?.(index);
+              }, 1500);
+            }
           }}
           onEnd={(prize) => {
             // 抽奖结束会触发end回调
-            // alert('恭喜你抽到 ' + prize.fonts[0].text + ' 号奖品');
+            notification.open({
+              placement: 'top',
+              message: <>今日缘分，【{prize.name}】</>,
+              description: (
+                <div>
+                  <p>{prize.desc}</p>
+                  <div style={{ textAlign: 'right' }}>
+                    <a
+                      href={prize.url}
+                      target="_blank"
+                      onClick={() => {
+                        countItemViews(prize?.id).catch();
+                      }}
+                    >
+                      去看看
+                    </a>
+                  </div>
+                </div>
+              ),
+            });
           }}
         ></LuckyWheel>
       ),
