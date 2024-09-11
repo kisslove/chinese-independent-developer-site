@@ -1,5 +1,5 @@
 # 中国独立开发者项目列表(网页版)
-基础数据来源[chinese-independent-developer](https://github.com/1c7/chinese-independent-developer),此项目仅负责友好展示。
+基础数据来源[chinese-independent-developer](https://github.com/1c7/chinese-independent-developer),此项目负责友好展示。
 
 该项目致力于聚合中国开发者社区中的优秀项目，为开发者提供一个集中浏览和发现有价值项目的平台。
 
